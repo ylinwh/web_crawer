@@ -1,0 +1,6 @@
+*
+!new_web_site/
+!new_web_site/*.txt
+!*.py
+!.gitignore
+!final_result.txt
