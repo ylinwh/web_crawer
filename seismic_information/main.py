@@ -2,7 +2,7 @@ import requests
 import os, time
 
 max_record = 438
-record_range = list((range(1, max_record, 45))) + [max_record+2]
+record_range = list((range(1, max_record, 45))) + [max_record+1]
 
 headers = {'Connection': 'keep-alive', 
    'Accept': 'application/xml, text/xml, */*; q=0.01', 
@@ -26,11 +26,11 @@ data = {'col': '1',
  }
 
 request_url = 'http://www.js-seism.gov.cn/module/web/jpage/dataproxy.jsp?startrecord={}&endrecord={}&perpage=15'
+# website: http://www.js-seism.gov.cn/col/col981/index.html
 
 store_dire = 'new_web_site'
-for idx, num in enumerate(record_range[:-1]):
-    r = requests.post(request_url.format(num, record_range[idx+1]-1), headers=headers, data=data)
-    # translated = r.text
+for idx in range(len(record_range)-1):
+    r = requests.post(request_url.format(record_range[idx], record_range[idx+1]-1), headers=headers, data=data)
     translated = r.text.encode('utf-8')
     with open(os.path.join(store_dire, f'new_{idx+1}_page.txt'), 'wb') as fd:
         fd.write(translated)
